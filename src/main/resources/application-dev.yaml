@@ -1,8 +1,8 @@
 spring:
-  security:
-    user:
-      name: user
-      password: password
+  #  security:
+  #    user:
+  #      name: user
+  #      password: password
 
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres
@@ -13,4 +13,4 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQL95Dialect
     show-sql: true
     hibernate:
-      ddl-auto: validate
+      ddl-auto: update
