@@ -6,8 +6,9 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.math.BigInteger;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -21,22 +22,12 @@ public class TransactionEntity {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "value", nullable = false)
-    private BigInteger value;
+    @Column(name = "transaction_id", nullable = false, unique = true)
+    private UUID transactionId;
+
+    @Column(name = "amount", nullable = false)
+    private BigDecimal amount;
 
     @Column(name = "date", nullable = false)
     private LocalDateTime date;
-
-    @Column(name = "type", nullable = false)
-    private TransactionTypeEntity type;
-
-    @Column(name = "received", nullable = false)
-    private Boolean received = false;
-
-    @OneToOne(optional = false)
-    @JoinColumn(name = "category_id", nullable = false)
-    private TransactionCategoryEntity category;
-
-    @Column(name = "description")
-    private String description;
 }
