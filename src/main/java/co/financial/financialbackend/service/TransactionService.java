@@ -2,9 +2,10 @@ package co.financial.financialbackend.service;
 
 
 import co.financial.financialbackend.dto.RegisterTransactionRequestDto;
+import co.financial.financialbackend.mapper.AccountMapper;
 import co.financial.financialbackend.mapper.TransactionMapper;
-import co.financial.financialbackend.model.Account;
 import co.financial.financialbackend.model.Transaction;
+import co.financial.financialbackend.repository.AccountRepository;
 import co.financial.financialbackend.repository.TransactionRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,14 +19,17 @@ import java.util.Objects;
 public class TransactionService {
     private final TransactionMapper transactionMapper;
     private final TransactionRepository transactionRepository;
+    private final AccountRepository accountRepository;
+    private final AccountMapper accountMapper;
 
     public Transaction registerTransaction(RegisterTransactionRequestDto registerTransactionRequestDto) {
-        // recover account
-        var account = new Account("");
+        if (Objects.isNull(registerTransactionRequestDto.getAccountId())) {
+            throw new IllegalArgumentException("AccountId cannot be null or empty.");
+        }
+        var accountEntity = accountRepository.findById(registerTransactionRequestDto.getAccountId())
+                                             .orElseThrow(() -> new IllegalArgumentException("Account not found."));
 
-        // validate account
-        if (Objects.isNull(account))
-            throw new IllegalArgumentException("Acount cannot be null or empty.");
+        var account = accountMapper.toAccount(accountEntity);
 
         // create transaction domain
         var amount = registerTransactionRequestDto.getAmount();

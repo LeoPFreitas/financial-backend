@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.PositiveOrZero;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -16,8 +15,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class RegisterTransactionRequestDto {
     @NotNull(message = "AccountId cannot be null or empty")
-    @Pattern(regexp = "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
-    private String accountId;
+    private Long accountId;
 
     @NotNull(message = "Value cannot be null or empty")
     @PositiveOrZero(message = "Value cannot be a negative number")

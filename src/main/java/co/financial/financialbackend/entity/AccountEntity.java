@@ -1,30 +1,29 @@
 package co.financial.financialbackend.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.GenericGenerator;
+import lombok.Setter;
+import lombok.ToString;
 import org.springframework.data.domain.Persistable;
 
 import javax.persistence.*;
-import java.math.BigInteger;
-import java.util.UUID;
+import java.math.BigDecimal;
 
-@Data
-@Entity
+@Getter
+@Setter
+@ToString
 @NoArgsConstructor
-@AllArgsConstructor
+@Entity
 @Table(name = "account")
-public class AccountEntity implements Persistable<UUID> {
+public class AccountEntity implements Persistable<Long> {
 
     @Id
-    @GenericGenerator(name = "UUIDGenerator", strategy = "uuid2")
-    @GeneratedValue(generator = "UUIDGenerator")
     @Column(name = "id", updatable = false, nullable = false)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(name = "balance", nullable = false)
-    private BigInteger balance;
+    private BigDecimal balance;
 
     @Column(name = "name", nullable = false)
     private String name;
@@ -36,5 +35,4 @@ public class AccountEntity implements Persistable<UUID> {
     public boolean isNew() {
         return id == null;
     }
-
 }

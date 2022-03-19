@@ -2,8 +2,9 @@ package co.financial.financialbackend.model;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.jetbrains.annotations.NotNull;
 
-import java.math.BigInteger;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -13,27 +14,37 @@ import java.util.function.Predicate;
 @Data
 @EqualsAndHashCode
 public class Account {
-    private final UUID id;
-    private BigInteger balance;
-    private BigInteger projectedBalance;
+    private Long id;
+    private BigDecimal balance;
+    private BigDecimal projectedBalance;
     private String name;
     private String description;
 
     private Map<UUID, Transaction> transactions;
 
-    public Account(UUID id) {
-        this.id = id;
+    public static @NotNull Account ofId(Long id, String name) {
+        if (Objects.isNull(id)) {
+            throw new IllegalArgumentException("Account ID cannot be null or empty");
+        }
+        return new Account(id, name);
+    }
+
+    public static @NotNull Account newAccount(String name) {
+        return new Account(name);
+    }
+
+    private Account(Long id, String name) {
         this.name = name;
-        this.balance = BigInteger.ZERO;
-        this.projectedBalance = BigInteger.ZERO;
+        this.id = id;
+        this.balance = BigDecimal.ZERO;
+        this.projectedBalance = BigDecimal.ZERO;
         transactions = new HashMap<>();
     }
 
-    public Account(String name) {
-        this.id = UUID.randomUUID();
+    private Account(String name) {
         this.name = name;
-        this.balance = BigInteger.ZERO;
-        this.projectedBalance = BigInteger.ZERO;
+        this.balance = BigDecimal.ZERO;
+        this.projectedBalance = BigDecimal.ZERO;
         transactions = new HashMap<>();
     }
 

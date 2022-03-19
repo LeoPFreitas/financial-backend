@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Objects;
-import java.util.UUID;
 
+import static org.springframework.http.HttpStatus.ACCEPTED;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -24,7 +24,7 @@ public class AccountController {
     private final AccountService accountService;
 
     @PostMapping(value = "/account", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity<UUID> register(@Valid @RequestBody RegisterAccountRequestDto requestDto) {
+    public ResponseEntity<Long> register(@Valid @RequestBody RegisterAccountRequestDto requestDto) {
         log.debug("Create Account Operation -- Payload [%s]".formatted(requestDto.toString()));
 
         var accountId = accountService.registerAccount(requestDto);
@@ -41,6 +41,11 @@ public class AccountController {
             return ResponseEntity.badRequest().body("Account ID cannot be null or empty");
 
         var accountEntity = accountService.retrieveAccount(accountId.accountId());
+
+        if (Objects.isNull(accountEntity)) {
+            return ResponseEntity.status(ACCEPTED).body("Account not founded!");
+        }
+
         return ResponseEntity.status(CREATED).body(accountEntity);
     }
 }

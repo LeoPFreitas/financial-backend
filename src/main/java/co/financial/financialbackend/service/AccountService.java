@@ -7,17 +7,15 @@ import co.financial.financialbackend.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
-
 @Service
 @RequiredArgsConstructor
 public class AccountService {
     private final AccountRepository accountRepository;
     private final AccountMapper mapper;
 
-
-    public UUID registerAccount(RegisterAccountRequestDto requestDto) {
-        var account = new Account(requestDto.getName());
+    public Long registerAccount(RegisterAccountRequestDto requestDto) {
+        var account = Account.newAccount(requestDto.getName());
+        account = mapper.toAccount(account, requestDto);
 
         var accountEntity = mapper.toEntity(account);
         accountEntity = accountRepository.save(accountEntity);
@@ -25,7 +23,7 @@ public class AccountService {
         return accountEntity.getId();
     }
 
-    public Account retrieveAccount(UUID accountId) {
+    public Account retrieveAccount(Long accountId) {
         var byId = accountRepository.findById(accountId);
 
         if (byId.isPresent()) {

@@ -28,23 +28,20 @@ public class Transaction {
         return new Transaction(amount);
     }
 
-    private Transaction(BigDecimal amount) {
-        this.id = UUID.randomUUID();
+    public static @NotNull Transaction ofValue(UUID id, BigDecimal amount) {
+        if (Objects.isNull(amount) || Objects.isNull(id)) {
+            throw new IllegalArgumentException("Transaction amount or ID cannot be null or empty");
+        }
+        return new Transaction(id, amount);
+    }
+
+    private Transaction(UUID id, BigDecimal amount) {
+        this.id = id;
         this.amount = amount;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
-        Transaction that = (Transaction) o;
-        return id.equals(that.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
+    private Transaction(BigDecimal amount) {
+        this.id = UUID.randomUUID();
+        this.amount = amount;
     }
 }
