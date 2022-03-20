@@ -34,6 +34,7 @@ public class AccountEntity {
     private String description;
 
     @OneToMany(mappedBy = "accountEntity", orphanRemoval = true)
+    @ToString.Exclude
     private List<TransactionEntity> transactionEntities = new ArrayList<>();
 
 }
