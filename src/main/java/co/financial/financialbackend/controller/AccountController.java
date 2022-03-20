@@ -33,7 +33,7 @@ public class AccountController {
     }
 
     @GetMapping(value = "/account", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> register(@RequestBody AccountId accountId) {
+    public ResponseEntity<Object> find(@RequestBody AccountId accountId) {
         log.debug("Retrieve Account Operation -- ID [%s]".formatted(accountId));
 
         if (Objects.isNull(accountId))

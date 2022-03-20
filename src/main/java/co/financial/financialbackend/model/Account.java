@@ -5,10 +5,9 @@ import lombok.EqualsAndHashCode;
 import org.jetbrains.annotations.NotNull;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
 import java.util.Objects;
-import java.util.UUID;
+import java.util.Set;
 import java.util.function.Predicate;
 
 @Data
@@ -20,7 +19,7 @@ public class Account {
     private String name;
     private String description;
 
-    private Map<UUID, Transaction> transactions;
+    private Set<Transaction> transactions;
 
     public static @NotNull Account ofId(Long id, String name) {
         if (Objects.isNull(id)) {
@@ -38,26 +37,24 @@ public class Account {
         this.id = id;
         this.balance = BigDecimal.ZERO;
         this.projectedBalance = BigDecimal.ZERO;
-        transactions = new HashMap<>();
+        transactions = new HashSet<>();
     }
 
     private Account(String name) {
         this.name = name;
         this.balance = BigDecimal.ZERO;
         this.projectedBalance = BigDecimal.ZERO;
-        transactions = new HashMap<>();
+        transactions = new HashSet<>();
     }
 
-    public UUID registerTransaction(Transaction transaction) {
-        if (isNull.test(transaction))
+    public Long registerTransaction(Transaction transaction) {
+        if (Objects.isNull(transaction))
             throw new IllegalArgumentException("Transaction cannot be null  or empty");
 
-        this.transactions.put(transaction.getId(), transaction);
+        this.transactions.add(transaction);
 
         return transaction.getId();
     }
 
-    private Predicate<Transaction> isNull = transaction -> Objects.isNull(transaction) || Objects.isNull(transaction.getId());
-
-    private Predicate<Transaction> transactionExists = t -> this.transactions.containsKey(t.getId());
+    private Predicate<Transaction> transactionExists = t -> this.transactions.contains(t);
 }

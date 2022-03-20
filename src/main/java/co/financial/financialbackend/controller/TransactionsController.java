@@ -23,13 +23,14 @@ public class TransactionsController {
     private final TransactionService transactionService;
 
     @PostMapping(value = "/transaction", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity<RegisterTransactionResponseDto> register(@Valid @RequestBody RegisterTransactionRequestDto requestDto) {
+    public ResponseEntity<Object> register(@Valid @RequestBody RegisterTransactionRequestDto requestDto) {
         log.debug("Create Transaction Operation -- Payload [%s]".formatted(requestDto.toString()));
         try {
-            transactionService.registerTransaction(requestDto);
+            var transaction = transactionService.registerTransaction(requestDto);
+            return ResponseEntity.ok().body(transaction);
         } catch (Exception e) {
             log.error(e.getMessage());
         }
-        return ResponseEntity.ok().build();
+        return ResponseEntity.badRequest().build();
     }
 }

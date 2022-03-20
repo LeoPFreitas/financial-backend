@@ -5,24 +5,33 @@ import co.financial.financialbackend.entity.TransactionEntity;
 import co.financial.financialbackend.model.Transaction;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeMap;
 import org.springframework.stereotype.Component;
+
+import java.util.Currency;
 
 @Component
 @RequiredArgsConstructor
 public class TransactionMapper {
     private final ModelMapper mapper;
 
-    public Transaction toTransaction(RegisterTransactionRequestDto dto, Transaction transaction) {
+    public Transaction toTransaction(RegisterTransactionRequestDto dto) {
+        mapper.typeMap(RegisterTransactionRequestDto.class, Transaction.class)
+              .addMappings(mp -> mp.skip(Transaction::setId));
+
+        var transaction = Transaction.ofValue(dto.getAmount());
+
+        var currency = Currency.getInstance(dto.getCurrencyCode());
+        transaction.setCurrency(currency);
+
         mapper.map(dto, transaction);
         return transaction;
     }
 
-    public TransactionEntity toEntity(Transaction transaction) {
-        TypeMap<Transaction, TransactionEntity> typeMap = this.mapper.createTypeMap(transaction, TransactionEntity.class);
-        typeMap.addMappings(mapping -> mapping.skip(TransactionEntity::setId))
-               .addMapping(Transaction::getId, TransactionEntity::setTransactionId);
+    public Transaction toTransaction(TransactionEntity entity) {
+        return mapper.map(entity, Transaction.class);
+    }
 
+    public TransactionEntity toEntity(Transaction transaction) {
         return mapper.map(transaction, TransactionEntity.class);
     }
 }

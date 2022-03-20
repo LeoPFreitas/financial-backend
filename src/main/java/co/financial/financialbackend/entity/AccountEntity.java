@@ -4,10 +4,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.data.domain.Persistable;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @Getter
 @Setter
@@ -30,4 +32,8 @@ public class AccountEntity {
 
     @Column(name = "description")
     private String description;
+
+    @OneToMany(mappedBy = "accountEntity", orphanRemoval = true)
+    private List<TransactionEntity> transactionEntities = new ArrayList<>();
+
 }

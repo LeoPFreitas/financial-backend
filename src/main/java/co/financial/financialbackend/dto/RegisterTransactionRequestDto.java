@@ -3,10 +3,10 @@ package co.financial.financialbackend.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.PositiveOrZero;
+import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -23,4 +23,11 @@ public class RegisterTransactionRequestDto {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss[.SSS][.SS][.S]")
     private LocalDateTime date;
+
+    @Pattern(regexp = "\\b[A-Z]{3}\\b", message = "A valid currency code must have 3 uppercase letters.")
+    private String currencyCode;
+
+    private Boolean received;
+
+    private String description;
 }
