@@ -29,7 +29,6 @@ public class AccountController {
 
         var accountId = accountService.registerAccount(requestDto);
 
-
         return ResponseEntity.status(CREATED).body(accountId);
     }
 

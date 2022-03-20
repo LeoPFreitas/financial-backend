@@ -15,7 +15,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @Entity
 @Table(name = "account")
-public class AccountEntity implements Persistable<Long> {
+public class AccountEntity {
 
     @Id
     @Column(name = "id", updatable = false, nullable = false)
@@ -30,9 +30,4 @@ public class AccountEntity implements Persistable<Long> {
 
     @Column(name = "description")
     private String description;
-
-    @Override
-    public boolean isNew() {
-        return id == null;
-    }
 }
