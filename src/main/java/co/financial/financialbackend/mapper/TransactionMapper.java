@@ -1,6 +1,7 @@
 package co.financial.financialbackend.mapper;
 
 import co.financial.financialbackend.dto.RegisterTransactionRequestDto;
+import co.financial.financialbackend.dto.UpdateTransactionRequestDto;
 import co.financial.financialbackend.entity.TransactionEntity;
 import co.financial.financialbackend.model.Transaction;
 import lombok.RequiredArgsConstructor;
@@ -33,5 +34,15 @@ public class TransactionMapper {
 
     public TransactionEntity toEntity(Transaction transaction) {
         return mapper.map(transaction, TransactionEntity.class);
+    }
+
+    public TransactionEntity toEntity(UpdateTransactionRequestDto dto) {
+        mapper.typeMap(UpdateTransactionRequestDto.class, TransactionEntity.class)
+              .addMapping(UpdateTransactionRequestDto::getTransactionId, TransactionEntity::setId)
+              .addMapping(UpdateTransactionRequestDto::getAmount, TransactionEntity::setAmount)
+              .addMapping(UpdateTransactionRequestDto::getDate, TransactionEntity::setDate)
+              .addMappings(m -> m.skip(TransactionEntity::setAccountEntity));
+
+        return mapper.map(dto, TransactionEntity.class);
     }
 }

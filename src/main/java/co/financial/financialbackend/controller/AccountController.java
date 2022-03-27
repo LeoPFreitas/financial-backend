@@ -2,6 +2,7 @@ package co.financial.financialbackend.controller;
 
 import co.financial.financialbackend.dto.AccountId;
 import co.financial.financialbackend.dto.RegisterAccountRequestDto;
+import co.financial.financialbackend.dto.UpdateTransactionRequestDto;
 import co.financial.financialbackend.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

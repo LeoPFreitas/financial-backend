@@ -14,9 +14,12 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RegisterTransactionRequestDto {
+public class UpdateTransactionRequestDto {
     @NotNull(message = "AccountId cannot be null or empty")
     private Long accountId;
+
+    @NotNull(message = "TransactionId cannot be null or empty")
+    private Long transactionId;
 
     @NotNull(message = "Value cannot be null or empty")
     @PositiveOrZero(message = "Value cannot be a negative number")
