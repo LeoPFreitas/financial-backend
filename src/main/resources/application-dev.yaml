@@ -14,3 +14,10 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
+
+okta:
+  oauth2:
+    client-id: ${CLIENT_ID}
+    client-secret: ${CLIENT_SECRET}
+    issuer: https://${OKTA_DOMAIN}/oauth2/default
+    redirect-uri: /authorization-code/callback

@@ -48,4 +48,9 @@ public class AccountController {
 
         return ResponseEntity.status(CREATED).body(accountEntity);
     }
+
+    @GetMapping(value = "/account2")
+    public ResponseEntity<String> find2() {
+        return ResponseEntity.status(CREATED).body("OK Baby");
+    }
 }
